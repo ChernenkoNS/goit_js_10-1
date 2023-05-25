@@ -13,6 +13,8 @@ const ref = {
 
 ref.countryName.addEventListener('input', debounce(onSubmit, DEBOUNCE_DELAY));
 
+
+
 function onSubmit(event) {
   const value = event.target.value.trim();
   event.preventDefault();
@@ -23,11 +25,13 @@ function onSubmit(event) {
     API.getCountry(value)
       .then(results => {
         if (results.length === 0)
-          throw new Error('Oops, there is no country with that name');
+          throw new Error('Oops, there is no country with that name')
+          clearInput();
         if (results.length > 10) {
           Notiflix.Notify.info(
             'Too many matches found. Please enter a more specific name.'
           );
+          clearInput()
           return;
         }
         const curentFun = results.length === 1 ? createInfo : createList;
